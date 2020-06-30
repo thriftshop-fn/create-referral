@@ -4,5 +4,8 @@
   "description": "## Usage",
   "author": "GoldCoders",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "google-spreadsheet": "^3.0.11"
+  }
 }
