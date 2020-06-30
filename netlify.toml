@@ -1,0 +1,11 @@
+[build]
+  functions = "functions"
+  command = "#"
+[template.environment]
+  PAYMONGO_EMAIL = "Type Username"
+  PAYMONGO_PASS = "Type Password"
+  PAYMONGO_LIVE_MODE = "Set True If Paymongo is Live"
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
