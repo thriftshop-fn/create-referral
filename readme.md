@@ -87,12 +87,12 @@ https://docs.google.com/spreadsheets/d/COPY-THIS-URL-SEGMENT/edit#gid=0
 > *Raw JSON PAYLOAD*
 ```json
 {
-"username": "juandee", // UNIQUE Username
-"name": "Juan Dela Cruz",
-"email": "juandelacruz@gmail.com",
-"type": "percent", // fixed or percent
-"amount": 10,
-"active": true
+    "username": "juandee", // UNIQUE Username
+    "name": "Juan Dela Cruz",
+    "email": "juandelacruz@gmail.com",
+    "type": "percent", // fixed or percent
+    "amount": 10,
+    "active": true
 }
 ```
 
