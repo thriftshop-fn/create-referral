@@ -84,18 +84,35 @@ https://docs.google.com/spreadsheets/d/COPY-THIS-URL-SEGMENT/edit#gid=0
 
 - test http://localhost:8888/api in postman
 
-> *Raw JSON PAYLOAD*
+<details>
+  <summary>Raw JSON PAYLOAD</summary>
+
 ```json
 {
-    "username": "juandee", // UNIQUE Username
+    "username": "midascode",
     "name": "Juan Dela Cruz",
     "email": "juandelacruz@gmail.com",
-    "type": "percent", // fixed or percent
+    "type": "percent",
     "amount": 10,
     "active": true
 }
 ```
 
+- **NOTE: This Microservice Allows User To Submit A Request To Be Part of Referral Program**
+
+- username is required
+
+- name is required 
+
+- email is required
+
+- type is required and can either be fixed or percent, but defaults to percent
+
+- amount is an integer , defaults to 10
+
+- active can be set as Frontend-matter in Hugo  on a Specific Page, defaults to false
+
+</details>
 
 ## Deploy
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/thriftshop-fn/create-referral)
