@@ -114,9 +114,6 @@ exports.handler = async (event) => {
     try {
       await referral_sheet.loadHeaderRow();
     } catch (e) {
-      await referral_sheet.updateProperties({
-        title: "Referrals",
-      });
       await referral_sheet.setHeaderRow([
         "referral_code",
         "name",
