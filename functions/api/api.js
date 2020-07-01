@@ -104,6 +104,7 @@ exports.handler = async (event) => {
           "active",
           "commission",
         ],
+        sheetId: 2,
       });
       referral_sheet = doc.sheetsById[2];
       await referral_sheet.updateProperties({
