@@ -20,8 +20,64 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: "Method Not Allowed!" }),
+      body: JSON.stringify({
+        error: "Method Not Allowed!",
+      }),
       headers: { Allow: "POST" },
+    };
+  }
+
+  let validationError = [];
+
+  const referral_types = ["fixed", "percent"];
+
+  const {
+    username = null,
+    name = null,
+    email = null,
+    type = "percent",
+    amount = "10",
+    active = false,
+  } = JSON.parse(event.body);
+
+  if (!username) {
+    let error = {
+      field: "username",
+      message: "No Username Submitted",
+    };
+    validationError.push(error);
+  }
+
+  if (!email) {
+    let error = {
+      field: "email",
+      message: "No Email Submitted",
+    };
+    validationError.push(error);
+  }
+
+  if (!name) {
+    let error = {
+      field: "name",
+      message: "No Name Submitted",
+    };
+    validationError.push(error);
+  }
+
+  if (!referral_types.includes(type)) {
+    let error = {
+      field: "type",
+      message: "Referral Commission Type is Invalid!",
+    };
+    validationError.push(error);
+  }
+
+  if (validationError.length > 0) {
+    return {
+      statusCode: 422,
+      body: JSON.stringify({
+        errors: validationError,
+      }),
     };
   }
 
@@ -34,106 +90,61 @@ exports.handler = async (event) => {
     });
 
     await doc.loadInfo();
-    var sheet;
 
-    if (doc.sheetCount < 2) {
+    var referral_sheet = doc.sheetsById[2];
+
+    if (!referral_sheet) {
       await doc.addSheet({
         headerValues: [
           "referral_code",
           "name",
           "email",
-          "type", // type can be fix or percentage
+          "type",
           "amount",
           "active",
           "commission",
         ],
       });
-      sheet = doc.sheetsByIndex[1];
-      await sheet.updateProperties({ title: "Referrals" });
+      referral_sheet = doc.sheetsById[2];
+      await referral_sheet.updateProperties({
+        title: "Referrals",
+      });
     }
 
     try {
-      sheet = doc.sheetsByIndex[1];
-      await sheet.loadHeaderRow();
-    } catch (error) {
-      await sheet.updateProperties({ title: "Referrals" });
-      await sheet.setHeaderRow([
+      await referral_sheet.loadHeaderRow();
+    } catch (e) {
+      await referral_sheet.updateProperties({
+        title: "Referrals",
+      });
+      await referral_sheet.setHeaderRow([
         "referral_code",
         "name",
         "email",
-        "type", // type can be fix or percentage
+        "type",
         "amount",
         "active",
         "commission",
       ]);
     }
-    const {
-      username = null,
-      name = null,
-      email = null,
-      type = "percent", // fixed or percent
-      amount = "10",
-      active = false, // true or false
-    } = JSON.parse(event.body);
 
-    let validationError = [];
+    const rows = await referral_sheet.getRows();
 
-    const referral_types = ["fixed", "percent"];
-
-    if (!username) {
-      let error = {
-        field: "username",
-        message: "No Username Submitted, *username* is required",
-      };
-      validationError.push(error);
-    }
-
-    if (!email) {
-      let error = {
-        field: "email",
-        message: "No Email Submitted, *email* is required",
-      };
-      validationError.push(error);
-    }
-
-    if (!name) {
-      let error = {
-        field: "name",
-        message: "No Name Submitted, *name* is required",
-      };
-      validationError.push(error);
-    }
-
-    if (!referral_types.includes(type)) {
-      let error = {
-        field: "type",
-        message: "Invalid Type is Provided!",
-      };
-      validationError.push(error);
-    }
-
-    if (validationError.length > 0) {
-      return {
-        statusCode: 422,
-        body: JSON.stringify({ errors: validationError }),
-      };
-    }
-
-    const rows = await sheet.getRows();
-
-    if (sheet.rowCount > 0) {
+    if (referral_sheet.rowCount > 0) {
       const rowIndex = rows.findIndex((x) => x.referral_code == username);
 
       if (rowIndex > -1) {
         let error = {
           statusCode: 400,
-          body: JSON.stringify({ error: "Record Already Exist!" }),
+          body: JSON.stringify({
+            error: "Referral Account Record Already Exist!",
+          }),
         };
         return error;
       }
     }
 
-    await sheet.addRow({
+    await referral_sheet.addRow({
       referral_code: username,
       name,
       type,
