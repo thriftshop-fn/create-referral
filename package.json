@@ -1,7 +1,7 @@
 {
-  "name": "create-refund-fn",
+  "name": "create-referral-fn",
   "version": "1.0.0",
-  "description": "## Usage",
+  "description": "Create New Referral",
   "author": "GoldCoders",
   "license": "ISC",
   "dependencies": {
