@@ -142,15 +142,20 @@ exports.handler = async (event) => {
       }
     }
 
-    await referral_sheet.addRow({
+    let newRow = await referral_sheet.addRow({
       referral_code: username,
       name,
       type,
       active,
       email,
       amount,
-      commission: 0,
     });
+
+    let row = newRow._rowNumber;
+    await referral_sheet.loadCells(`A1:G${row}`);
+    const rowGCell = referral_sheet.getCellByA1(`G${row}`);
+    rowGCell.formula = `=SUMIF(Purchases!$K:$K,$A${row},Purchases!$L:$L)`;
+    await referral_sheet.saveUpdatedCells();
 
     let message = "Please Wait For Us To Approved Your Application";
     if (active || active == "true" || active == true) {
@@ -161,6 +166,8 @@ exports.handler = async (event) => {
       statusCode: 201,
       body: JSON.stringify({
         message,
+        row: row,
+        cells: `A1:G${row}`,
       }),
     };
   } catch (e) {
