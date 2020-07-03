@@ -103,7 +103,7 @@ exports.handler = async (event) => {
           "amount",
           "active",
           "commission",
-          "withdrawable"
+          "withdrawable",
         ],
         sheetId: 2,
       });
@@ -124,7 +124,7 @@ exports.handler = async (event) => {
         "amount",
         "active",
         "commission",
-        "withdrawable"
+        "withdrawable",
       ]);
     }
 
@@ -157,9 +157,9 @@ exports.handler = async (event) => {
     await referral_sheet.loadCells(`A1:H${row}`);
     const rowGCell = referral_sheet.getCellByA1(`G${row}`);
     const rowHCell = referral_sheet.getCellByA1(`H${row}`);
-    rowGCell.formula = `=SUMIF(Purchases!$K:$K,$A${row},Purchases!$L:$L)`;
-    rowHCell.formula = `=SUMIFS(Purchases!$L:$L,Purchases!$K:$K,$A${row},Purchases!$J:$J,"<"&now())`;
-    
+    rowGCell.formula = `=SUMIF(Purchases!$P:$P,$A${row},Purchases!$Q:$Q)`;
+    rowHCell.formula = `=SUMIFS(Purchases!$Q:$Q,Purchases!$P:$P,$A${row},Purchases!$O:$O,"<"&now())`;
+
     await referral_sheet.saveUpdatedCells();
 
     let message = "Please Wait For Us To Approved Your Application";
