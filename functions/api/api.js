@@ -102,7 +102,8 @@ exports.handler = async (event) => {
           "type",
           "amount",
           "active",
-          "commission",
+          "total_commission",
+          "payable_commission"
         ],
         sheetId: 2,
       });
@@ -122,7 +123,8 @@ exports.handler = async (event) => {
         "type",
         "amount",
         "active",
-        "commission",
+        "total_commission",
+        "payable_commission"
       ]);
     }
 
@@ -152,9 +154,12 @@ exports.handler = async (event) => {
     });
 
     let row = newRow._rowNumber;
-    await referral_sheet.loadCells(`A1:G${row}`);
+    await referral_sheet.loadCells(`A1:H${row}`);
     const rowGCell = referral_sheet.getCellByA1(`G${row}`);
+    const rowHCell = referral_sheet.getCellByA1(`H${row}`);
     rowGCell.formula = `=SUMIF(Purchases!$K:$K,$A${row},Purchases!$L:$L)`;
+    rowHCell.formula = `=SUMIFS(Purchases!$L:$L,Purchases!$K:$K,$A${row},Purchases!$J:$J,"<"&now())`;
+    
     await referral_sheet.saveUpdatedCells();
 
     let message = "Please Wait For Us To Approved Your Application";
@@ -167,7 +172,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         message,
         row: row,
-        cells: `A1:G${row}`,
+        cells: `A1:H${row}`,
       }),
     };
   } catch (e) {
