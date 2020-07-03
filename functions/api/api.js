@@ -102,8 +102,8 @@ exports.handler = async (event) => {
           "type",
           "amount",
           "active",
-          "total_commission",
-          "payable_commission"
+          "commission",
+          "withdrawable"
         ],
         sheetId: 2,
       });
@@ -123,8 +123,8 @@ exports.handler = async (event) => {
         "type",
         "amount",
         "active",
-        "total_commission",
-        "payable_commission"
+        "commission",
+        "withdrawable"
       ]);
     }
 
