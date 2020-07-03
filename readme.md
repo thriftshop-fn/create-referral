@@ -112,6 +112,10 @@ https://docs.google.com/spreadsheets/d/COPY-THIS-URL-SEGMENT/edit#gid=0
 
 - active can be set as Frontend-matter in Hugo  on a Specific Page, defaults to false
 
+- total_commission is saved as a formula with referral code as criteria
+
+- payable_commission is saved as a formula with referral code as criteria and payout_date
+
 </details>
 
 ## Deploy
