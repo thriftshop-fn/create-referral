@@ -6,6 +6,6 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "google-spreadsheet": "^3.0.11"
+    "google-spreadsheet": "^3.3.0"
   }
 }
